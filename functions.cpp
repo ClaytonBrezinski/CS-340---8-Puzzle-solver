@@ -2,6 +2,36 @@
 
 char readIn()
 {
+	ifstream inData;
+	fstream outData;
+
+	inData.open("input.txt");
+
+	if (!inData)
+	{
+		cout << " you were not able to open the input file. Press any key to exit" << endl;
+		string exit;
+		cin >> exit;
+	}
+
+	/* read in the data from the text file and place into the correct rows*/
+	int topRow, middleRom, bottomRow;
+	string input;
+	inData >> input;
+
+	topRow += input[1];
+	topRow += input[2];
+	topRow += input[3];
+
+	middleRom += input[4];
+	middleRom += input[5];
+	middleRom += input[6];
+
+	bottomRow+= input[7];
+	bottomRow += input[8];
+	bottomRow += input[9];
+
+	/* Determine what method the user wants to */
 	char choice = 'q';
 	while (choice != 'A' || choice != 'B' || choice != 'C' || choice != 'a' || choice != 'b' || choice != 'c')
 	{
