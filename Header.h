@@ -19,8 +19,8 @@ looks like this in the game: _ 1 2
 using namespace std;
 
 /* variables */
-string goalOrientation = "123405678";
-stack<string> prevousOrientations;
+const string goalOrientation = "123405678";
+
 
 
 /* regular functions */

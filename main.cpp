@@ -2,7 +2,8 @@
 
 int main()
 {
- 
+	stack<string> prevousOrientations;
+
 	char readInChoice;
 	readInChoice = readIn();
 	//functionCaller();
