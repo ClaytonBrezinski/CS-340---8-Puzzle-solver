@@ -43,3 +43,6 @@ void bestFirstTiles();
 void bestFirstMoves();
 void bestFirstHeuristic(int heuristic);
 int tilesOutOfPlace();
+
+void depthSolutionSearch(string topRow, string middleRow, string bottomRow, int ZeroPos);
+void determineSwapOptions(string topRow, string middleRow, string bottomRow, int ZeroPos, int swapPositions[]);

@@ -11,6 +11,8 @@ int main()
 	char readInChoice;
 	readInChoice = readIn(topRow, middleRow, bottomRow);
 	zeroPosition = locateZero(topRow, middleRow, bottomRow);
+
+	depthSolutionSearch(topRow, middleRow, bottomRow, zeroPosition);
 	//functionCaller();
 
 	printout(topRow, middleRow, bottomRow);
