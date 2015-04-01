@@ -1,6 +1,6 @@
 #include "Header.h"
 
-char readIn()
+char readIn(string& topRow, string& middleRow, string& bottomRow)
 {
 	ifstream inData;
 	fstream outData;
@@ -15,7 +15,6 @@ char readIn()
 	}
 
 	/* read in the data from the text file and place into the correct rows*/
-	string topRow, middleRow, bottomRow;
 	string input;
 	inData >> input;
 
@@ -43,7 +42,7 @@ char readIn()
 	if (choice == 'Q' || choice == 'q')
 	{
 		cout << "exiting now" << endl;
-		return 0;
+		exit(0);
 	}
 	if (choice == 'C' || choice == 'c')
 	{
@@ -57,7 +56,7 @@ char readIn()
 		if (choice == 'Q' || choice == 'q')
 		{
 			cout << "exiting now" << endl;
-			return 0;
+			exit(0);
 		}
 	}
 	/* put in correct output format*/
@@ -107,3 +106,105 @@ void functionCaller(char choice)
 	}
 }
 
+int locateZero(string topRow, string middleRow, string bottomRow)
+{
+	for (int i = 0; i < 3; i++)
+	{
+		if (topRow[i] == '0')
+		{
+			return i;
+		}
+		else if (middleRow[i] == '0')
+		{
+			int result = i + 3 ;
+			return result;
+		}
+		else if (bottomRow[i] == '0')
+		{
+			int result = i + 6 ;
+			return result;
+		}
+	}
+}
+int locateZero(string whole)
+{
+	for (int i = 0; i < 9; i++)
+	{
+		if (whole[i] == '0')
+		{
+			return i;
+		}
+	}
+}
+void swap(string firstLevel, string secondLevel, int firstPosition, int secondPosition)
+{
+	char temp = firstLevel[firstPosition];
+	firstLevel[firstPosition] = secondLevel[secondPosition];
+	secondLevel[secondPosition] = temp;
+}
+void printout(string topRow, string middleRow, string bottomRow)
+{
+	int zeroPos = locateZero(topRow, middleRow, bottomRow);
+	for (int i = 0; i < 3; i++)
+	{
+		if (i == zeroPos)
+		{
+			cout << "_" << " ";
+		}
+		else
+		{
+			cout << topRow[i] << " ";
+		}
+	}
+	cout << endl;
+
+	int tempA = zeroPos - 3;
+	for (int i = 0; i < 3; i++)
+	{
+		
+		if (i == tempA)
+		{
+			cout << "_" << " ";
+		}
+		else
+		{
+			cout << middleRow[i] << " ";
+		}
+	}
+	cout << endl;
+
+	int tempB = zeroPos - 6;
+	for (int i = 0; i < 3; i++)
+	{
+		if (i == tempB)
+		{
+			cout << "_" << " ";
+		}
+		else
+		{
+			cout << bottomRow[i] << " ";
+		}
+	}
+	cout << endl;
+
+}
+void printout(string whole)
+{
+	int zeroPos = locateZero(whole);
+	for (int i = 0; i < 9; i++)
+	{
+		if (i == zeroPos )
+		{
+			cout << "_" << " ";
+		}
+		else
+		{
+			cout << whole[i] << " ";
+		}
+		if (i == 2 || i == 5)
+		{
+			cout << endl;
+		}
+	}
+	
+}

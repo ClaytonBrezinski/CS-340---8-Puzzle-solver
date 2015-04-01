@@ -16,17 +16,26 @@ looks like this in the game: _ 1 2
 #include <string>
 #include <queue>
 #include <stack>
+#include <array>
 using namespace std;
 
 /* variables */
 const string goalOrientation = "123405678";
 
-
+struct treeNodes
+{
+	string orientation;
+	treeNodes* parent;
+};
 
 /* regular functions */
-char readIn();
+char readIn(string& topRow, string& middleRow, string& bottomRow);
 void functionCaller(char choice);
-
+int locateZero(string topRow, string middleRow, string bottomRow);
+int locateZero(string whole);
+void swap(string firstLevel, string secondLevel, int firstPosition, int secondPosition);
+void printout(string topRow, string middleRow, string bottomRow);
+void printout(string whole);
 /* solving functions */
 void depthFirstSearch();
 void breadthFirstSearch();
