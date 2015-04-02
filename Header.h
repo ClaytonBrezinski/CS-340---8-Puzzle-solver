@@ -30,19 +30,20 @@ struct treeNodes
 
 /* regular functions */
 char readIn(string& topRow, string& middleRow, string& bottomRow);
+void additionalReadIn(char readInChoice);
 void functionCaller(char choice);
 int locateZero(string topRow, string middleRow, string bottomRow);
 int locateZero(string whole);
-void swap(string firstLevel, string secondLevel, int firstPosition, int secondPosition);
+void swap(string& firstLevel, string& secondLevel, int firstPosition, int secondPosition);
 void printout(string topRow, string middleRow, string bottomRow);
 void printout(string whole);
 /* solving functions */
-void depthFirstSearch();
+void depthFirstSearch(int depth);
 void breadthFirstSearch();
 void bestFirstTiles();
 void bestFirstMoves();
 void bestFirstHeuristic(int heuristic);
 int tilesOutOfPlace();
 
-void depthSolutionSearch(string topRow, string middleRow, string bottomRow, int ZeroPos);
+void depthSolutionSearch(string topRow, string middleRow, string bottomRow, int ZeroPos, int& depth);
 void determineSwapOptions(string topRow, string middleRow, string bottomRow, int ZeroPos, int swapPositions[]);

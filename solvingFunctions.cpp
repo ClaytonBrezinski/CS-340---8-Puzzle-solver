@@ -1,6 +1,6 @@
 #include "Header.h"
 
-void depthFirstSearch()
+void depthFirstSearch(int depth)
 {
 	//depthSolutionSearch();
 }
@@ -26,8 +26,9 @@ int tilesOutOfPlace()
 }
 
 
-void depthSolutionSearch(string topRow, string middleRow, string bottomRow, int ZeroPos)
+void depthSolutionSearch(string topRow, string middleRow, string bottomRow, int ZeroPos, int& depth)
 {
+	/* Determine which positions you can swap with*/
 	int swapPositions[4];
 	for (int i = 0; i < 4; i++)
 	{
@@ -35,6 +36,10 @@ void depthSolutionSearch(string topRow, string middleRow, string bottomRow, int 
 	}
 	determineSwapOptions(topRow, middleRow, bottomRow, ZeroPos, swapPositions);
 	
+	/* 
+	Determine where the zero is located then where each swap position is located
+	once each swap location is determined, swap the nodes and call the function again
+	*/
 	int j = 0;
 	if (ZeroPos >= 3 && ZeroPos < 6)
 	{
@@ -53,6 +58,7 @@ void depthSolutionSearch(string topRow, string middleRow, string bottomRow, int 
 				// Swap Node Location: middle row
 				int tempSwapNodePosition = swapPositions[j] - 3;
 				swap(tempMiddle, tempMiddle, tempZeroPos, tempSwapNodePosition);
+				//depthSolutionSearch(tempTop, tempMiddle, tempBottom, tempZeroPos);
 			}
 			else if (swapPositions[j] >= 6 && swapPositions[j] < 9)
 			{
@@ -67,15 +73,13 @@ void depthSolutionSearch(string topRow, string middleRow, string bottomRow, int 
 				swap(tempMiddle, tempTop, tempZeroPos, tempSwapNodePosition);
 			}
 
-			
-
 			j++;
 		}
 	}
 	else if (ZeroPos >= 6 && ZeroPos < 9)
 	{
 		// Zero Location: bottom row
-
+		int tempZeroPos = ZeroPos - 6;
 
 		while (swapPositions[j] != -10 && j < 4)
 		{
@@ -84,7 +88,24 @@ void depthSolutionSearch(string topRow, string middleRow, string bottomRow, int 
 			tempMiddle = middleRow;
 			tempBottom = bottomRow;
 
-			swap(tempBottom, );
+			if (swapPositions[j] >= 3 && swapPositions[j] < 6)
+			{
+				// Swap Node Location: middle row
+				int tempSwapNodePosition = swapPositions[j] - 3;
+				swap(tempBottom, tempMiddle, tempZeroPos, tempSwapNodePosition);
+			}
+			else if (swapPositions[j] >= 6 && swapPositions[j] < 9)
+			{
+				// Swap Node Location: bottom row
+				int tempSwapNodePosition = swapPositions[j] - 6;
+				swap(tempBottom, tempBottom, tempZeroPos, tempSwapNodePosition);
+			}
+			else
+			{
+				// Swap Node Location: top row
+				int tempSwapNodePosition = swapPositions[j];
+				swap(tempBottom, tempTop, tempZeroPos, tempSwapNodePosition);
+			}
 
 			j++;
 		}
@@ -92,7 +113,7 @@ void depthSolutionSearch(string topRow, string middleRow, string bottomRow, int 
 	else
 	{
 		// Zero Location: top row
-
+		int tempZeroPos = ZeroPos;
 
 		while (swapPositions[j] != -10 && j < 4)
 		{
@@ -101,9 +122,26 @@ void depthSolutionSearch(string topRow, string middleRow, string bottomRow, int 
 			tempMiddle = middleRow;
 			tempBottom = bottomRow;
 
-			swap(tempTop, );
+			if (swapPositions[j] >= 3 && swapPositions[j] < 6)
+			{
+				// Swap Node Location: middle row
+				int tempSwapNodePosition = swapPositions[j] - 3;
+				swap(tempTop, tempMiddle, tempZeroPos, tempSwapNodePosition);
+			}
+			else if (swapPositions[j] >= 6 && swapPositions[j] < 9)
+			{
+				// Swap Node Location: bottom row
+				int tempSwapNodePosition = swapPositions[j] - 6;
+				swap(tempTop, tempBottom, tempZeroPos, tempSwapNodePosition);
+			}
+			else
+			{
+				// Swap Node Location: top row
+				int tempSwapNodePosition = swapPositions[j];
+				swap(tempTop, tempTop, tempZeroPos, tempSwapNodePosition);
+			}
 
-			j++;
+-			j++;
 		}
 	}
 	

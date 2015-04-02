@@ -70,11 +70,55 @@ char readIn(string& topRow, string& middleRow, string& bottomRow)
 	}
 	else if (choice == 'c')
 	{
-		choice = 'C';
+		cout << "error in functions.cpp readIn" << endl;
+	}
+	else if (choice == 'd')
+	{
+		choice = 'D';
+	}
+	else if (choice == 'e')
+	{
+		choice = 'E';
+	}
+	else if (choice == 'f')
+	{
+		choice = 'F';
 	}
 	return choice;
 }
+void additionalReadIn(char readInChoice)
+{
+	cout << "A - Depth first" << endl;
+	cout << "D - Number of tiles out of place" << endl << "E - minimum number of moves to reach the goal state  " << endl << "  F - heuristic" << endl;
 
+	if (readInChoice == 'A')
+	{
+		int depth;
+		cout << " Please enter the depth at which you want the search to go: " << endl;
+		cin >> depth;
+		depthFirstSearch(depth);
+	}
+	else if (readInChoice == 'D')
+	{
+		//tilesOutOfPlace();
+		bestFirstTiles();
+	}
+	else if (readInChoice == 'E')
+	{
+		int manhattanDistance;
+		//manhattanDistance = manhattanDistance();
+		bestFirstMoves();
+	}
+	else if (readInChoice == 'F')
+	{
+		int heuristic, totDist, seq;
+		//totDist = totalDistance();
+		//seq = sequenceScore();
+		//heruistic = totdist + 3*seq;
+		bestFirstHeuristic(heuristic);
+	}
+
+}
 void functionCaller(char choice)
 {
 	switch (choice)
@@ -136,7 +180,7 @@ int locateZero(string whole)
 		}
 	}
 }
-void swap(string firstLevel, string secondLevel, int firstPosition, int secondPosition)
+void swap(string& firstLevel, string& secondLevel, int firstPosition, int secondPosition)
 {
 	char temp = firstLevel[firstPosition];
 	firstLevel[firstPosition] = secondLevel[secondPosition];
