@@ -112,7 +112,10 @@ bool solvingFunctions:: depthSolutionSearch(string topRow, string middleRow, str
 					if (comparePrevousOrientations(tempTop, tempMiddle, tempBottom))
 					{
 						tempZeroPos = locateZero(tempTop, tempMiddle, tempBottom); // redundant but a good measure
-						depthSolutionSearch(tempTop, tempMiddle, tempBottom, tempZeroPos, depth, MaxDepth);
+						if (depthSolutionSearch(tempTop, tempMiddle, tempBottom, tempZeroPos, depth, MaxDepth))
+						{
+							return true;
+						}
 					}
 				}
 				else if (swapPositions[j] >= 6 && swapPositions[j] < 9)
@@ -126,7 +129,10 @@ bool solvingFunctions:: depthSolutionSearch(string topRow, string middleRow, str
 					if (comparePrevousOrientations(tempTop, tempMiddle, tempBottom))
 					{
 						tempZeroPos = locateZero(tempTop, tempMiddle, tempBottom); // redundant but a good measure
-						depthSolutionSearch(tempTop, tempMiddle, tempBottom, tempZeroPos, depth, MaxDepth);
+						if (depthSolutionSearch(tempTop, tempMiddle, tempBottom, tempZeroPos, depth, MaxDepth))
+						{
+							return true;
+						}
 					}
 				}
 				else
@@ -140,7 +146,10 @@ bool solvingFunctions:: depthSolutionSearch(string topRow, string middleRow, str
 					if (comparePrevousOrientations(tempTop, tempMiddle, tempBottom))
 					{
 						tempZeroPos = locateZero(tempTop, tempMiddle, tempBottom); // redundant but a good measure
-						depthSolutionSearch(tempTop, tempMiddle, tempBottom, tempZeroPos, depth, MaxDepth);
+						if (depthSolutionSearch(tempTop, tempMiddle, tempBottom, tempZeroPos, depth, MaxDepth))
+						{
+							return true;
+						}
 					}
 				}
 
@@ -169,7 +178,10 @@ bool solvingFunctions:: depthSolutionSearch(string topRow, string middleRow, str
 					if (comparePrevousOrientations(tempTop, tempMiddle, tempBottom))
 					{
 						tempZeroPos = locateZero(tempTop, tempMiddle, tempBottom); // redundant but a good measure
-						depthSolutionSearch(tempTop, tempMiddle, tempBottom, tempZeroPos, depth, MaxDepth);
+						if (depthSolutionSearch(tempTop, tempMiddle, tempBottom, tempZeroPos, depth, MaxDepth))
+						{
+							return true;
+						}
 					}
 				}
 				else if (swapPositions[j] >= 6 && swapPositions[j] < 9)
@@ -183,7 +195,10 @@ bool solvingFunctions:: depthSolutionSearch(string topRow, string middleRow, str
 					if (comparePrevousOrientations(tempTop, tempMiddle, tempBottom))
 					{
 						tempZeroPos = locateZero(tempTop, tempMiddle, tempBottom); // redundant but a good measure
-						depthSolutionSearch(tempTop, tempMiddle, tempBottom, tempZeroPos, depth, MaxDepth);
+						if (depthSolutionSearch(tempTop, tempMiddle, tempBottom, tempZeroPos, depth, MaxDepth))
+						{
+							return true;
+						}
 					}
 				}
 				else
@@ -197,7 +212,10 @@ bool solvingFunctions:: depthSolutionSearch(string topRow, string middleRow, str
 					if (comparePrevousOrientations(tempTop, tempMiddle, tempBottom))
 					{
 						tempZeroPos = locateZero(tempTop, tempMiddle, tempBottom); // redundant but a good measure
-						depthSolutionSearch(tempTop, tempMiddle, tempBottom, tempZeroPos, depth, MaxDepth);
+						if (depthSolutionSearch(tempTop, tempMiddle, tempBottom, tempZeroPos, depth, MaxDepth))
+						{
+							return true;
+						}
 					}
 				}
 
@@ -226,7 +244,10 @@ bool solvingFunctions:: depthSolutionSearch(string topRow, string middleRow, str
 					if (comparePrevousOrientations(tempTop, tempMiddle, tempBottom))
 					{
 						tempZeroPos = locateZero(tempTop, tempMiddle, tempBottom); // redundant but a good measure
-						depthSolutionSearch(tempTop, tempMiddle, tempBottom, tempZeroPos, depth, MaxDepth);
+						if (depthSolutionSearch(tempTop, tempMiddle, tempBottom, tempZeroPos, depth, MaxDepth))
+						{
+							return true;
+						}
 					}
 				}
 				else if (swapPositions[j] >= 6 && swapPositions[j] < 9)
@@ -239,7 +260,10 @@ bool solvingFunctions:: depthSolutionSearch(string topRow, string middleRow, str
 					if (comparePrevousOrientations(tempTop, tempMiddle, tempBottom))
 					{
 						tempZeroPos = locateZero(tempTop, tempMiddle, tempBottom); // redundant but a good measure
-						depthSolutionSearch(tempTop, tempMiddle, tempBottom, tempZeroPos, depth, MaxDepth);
+						if (depthSolutionSearch(tempTop, tempMiddle, tempBottom, tempZeroPos, depth, MaxDepth))
+						{
+							return true;
+						}
 					}
 				}
 				else
@@ -252,7 +276,10 @@ bool solvingFunctions:: depthSolutionSearch(string topRow, string middleRow, str
 					if (comparePrevousOrientations(tempTop, tempMiddle, tempBottom))
 					{
 						tempZeroPos = locateZero(tempTop, tempMiddle, tempBottom); // redundant but a good measure
-						depthSolutionSearch(tempTop, tempMiddle, tempBottom, tempZeroPos, depth, MaxDepth);
+						if (depthSolutionSearch(tempTop, tempMiddle, tempBottom, tempZeroPos, depth, MaxDepth))
+						{
+							return true;
+						}
 					}
 				}
 

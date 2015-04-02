@@ -12,5 +12,8 @@ int main()
 	
 	solvePuzzle.functionCaller(readInChoice, topRow, middleRow, bottomRow, zeroPosition);
 	
+	string exit;
+	cout << "Press any key then enter to exit" << endl;
+	cin >> exit;
 	return 0;
 };
