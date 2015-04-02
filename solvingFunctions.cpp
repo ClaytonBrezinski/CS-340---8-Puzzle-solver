@@ -1,153 +1,270 @@
 #include "Header.h"
 
-void depthFirstSearch(int depth)
+void solvingFunctions:: depthFirstSearch(string topRow, string middleRow, string bottomRow, int ZeroPos, int depth)
 {
-	//depthSolutionSearch();
-}
-void breadthFirstSearch()
-{
+	pushCurrentOrientation(topRow, middleRow, bottomRow);
 
+	bool result = depthSolutionSearch(topRow, middleRow, bottomRow, ZeroPos, 0, depth);
+	if (result != true)
+	{
+		cout << "goal orientation not achieved" << endl;
+	}
+	
 }
-void bestFirstTiles()
+void solvingFunctions:: breadthFirstSearch()
 {
-
+	//pushCurrentOrientation(topRow, middleRow, bottomRow);
 }
-void bestFirstMoves()
+void solvingFunctions:: bestFirstTiles()
 {
-
+	//pushCurrentOrientation(topRow, middleRow, bottomRow);
 }
-void bestFirstHeuristic(int heuristic)
+void solvingFunctions:: bestFirstMoves()
 {
-
+	//pushCurrentOrientation(topRow, middleRow, bottomRow);
 }
-int tilesOutOfPlace()
+void solvingFunctions:: bestFirstHeuristic(int heuristic)
+{
+	//pushCurrentOrientation(topRow, middleRow, bottomRow);
+}
+int solvingFunctions:: tilesOutOfPlace()
 {
 	return 0;
 }
 
-
-void depthSolutionSearch(string topRow, string middleRow, string bottomRow, int ZeroPos, int& depth)
+void solvingFunctions::pushCurrentOrientation(string topRow, string middleRow, string bottomRow)
 {
-	/* Determine which positions you can swap with*/
-	int swapPositions[4];
-	for (int i = 0; i < 4; i++)
+	if (comparePrevousOrientations(topRow, middleRow, bottomRow))
 	{
-		swapPositions[i] = -10;
-	}
-	determineSwapOptions(topRow, middleRow, bottomRow, ZeroPos, swapPositions);
-	
-	/* 
-	Determine where the zero is located then where each swap position is located
-	once each swap location is determined, swap the nodes and call the function again
-	*/
-	int j = 0;
-	if (ZeroPos >= 3 && ZeroPos < 6)
-	{
-		// Zero Location: middle row
-		int tempZeroPos = ZeroPos - 3;
-
-		while (swapPositions[j] != -10 && j < 4)
-		{
-			string tempTop, tempMiddle, tempBottom;
-			tempTop = topRow;
-			tempMiddle = middleRow;
-			tempBottom = bottomRow;
-
-			if (swapPositions[j] >= 3 && swapPositions[j] < 6)
-			{
-				// Swap Node Location: middle row
-				int tempSwapNodePosition = swapPositions[j] - 3;
-				swap(tempMiddle, tempMiddle, tempZeroPos, tempSwapNodePosition);
-				//depthSolutionSearch(tempTop, tempMiddle, tempBottom, tempZeroPos);
-			}
-			else if (swapPositions[j] >= 6 && swapPositions[j] < 9)
-			{
-				// Swap Node Location: bottom row
-				int tempSwapNodePosition = swapPositions[j] - 6;
-				swap(tempMiddle, tempBottom, tempZeroPos, tempSwapNodePosition);
-			}
-			else
-			{
-				// Swap Node Location: top row
-				int tempSwapNodePosition = swapPositions[j];
-				swap(tempMiddle, tempTop, tempZeroPos, tempSwapNodePosition);
-			}
-
-			j++;
-		}
-	}
-	else if (ZeroPos >= 6 && ZeroPos < 9)
-	{
-		// Zero Location: bottom row
-		int tempZeroPos = ZeroPos - 6;
-
-		while (swapPositions[j] != -10 && j < 4)
-		{
-			string tempTop, tempMiddle, tempBottom;
-			tempTop = topRow;
-			tempMiddle = middleRow;
-			tempBottom = bottomRow;
-
-			if (swapPositions[j] >= 3 && swapPositions[j] < 6)
-			{
-				// Swap Node Location: middle row
-				int tempSwapNodePosition = swapPositions[j] - 3;
-				swap(tempBottom, tempMiddle, tempZeroPos, tempSwapNodePosition);
-			}
-			else if (swapPositions[j] >= 6 && swapPositions[j] < 9)
-			{
-				// Swap Node Location: bottom row
-				int tempSwapNodePosition = swapPositions[j] - 6;
-				swap(tempBottom, tempBottom, tempZeroPos, tempSwapNodePosition);
-			}
-			else
-			{
-				// Swap Node Location: top row
-				int tempSwapNodePosition = swapPositions[j];
-				swap(tempBottom, tempTop, tempZeroPos, tempSwapNodePosition);
-			}
-
-			j++;
-		}
-	}
-	else
-	{
-		// Zero Location: top row
-		int tempZeroPos = ZeroPos;
-
-		while (swapPositions[j] != -10 && j < 4)
-		{
-			string tempTop, tempMiddle, tempBottom;
-			tempTop = topRow;
-			tempMiddle = middleRow;
-			tempBottom = bottomRow;
-
-			if (swapPositions[j] >= 3 && swapPositions[j] < 6)
-			{
-				// Swap Node Location: middle row
-				int tempSwapNodePosition = swapPositions[j] - 3;
-				swap(tempTop, tempMiddle, tempZeroPos, tempSwapNodePosition);
-			}
-			else if (swapPositions[j] >= 6 && swapPositions[j] < 9)
-			{
-				// Swap Node Location: bottom row
-				int tempSwapNodePosition = swapPositions[j] - 6;
-				swap(tempTop, tempBottom, tempZeroPos, tempSwapNodePosition);
-			}
-			else
-			{
-				// Swap Node Location: top row
-				int tempSwapNodePosition = swapPositions[j];
-				swap(tempTop, tempTop, tempZeroPos, tempSwapNodePosition);
-			}
-
--			j++;
-		}
+		string currentOrientation = topRow + middleRow + bottomRow;
+		prevousOrientations[orientationSize] = currentOrientation;
+		orientationSize++;
 	}
 	
-	
+	//else the orientation is already present
 }
-void determineSwapOptions(string topRow, string middleRow, string bottomRow, int ZeroPos, int swapPositions[])
+bool solvingFunctions:: comparePrevousOrientations(string topRow, string middleRow, string bottomRow)
+{
+	string currentOrientation = topRow + middleRow + bottomRow;
+	for (int i = 0; i < orientationSize ; i++)
+	{
+		string temp = prevousOrientations[i];
+		if (temp == currentOrientation)
+		{
+			return false;
+		}
+	}
+	return true;
+}
+bool solvingFunctions:: depthSolutionSearch(string topRow, string middleRow, string bottomRow, int ZeroPos, int depth, int MaxDepth)
+{
+	pushCurrentOrientation(topRow, middleRow, bottomRow);
+	string currentOrientation = topRow + middleRow + bottomRow;
+	if (currentOrientation == goalOrientation)
+	{
+		cout << "goal orientation achieved" << endl;
+		printout(topRow, middleRow, bottomRow);
+		return true; // if solution was found return true
+		// have print out functions here
+		exit(0);
+	}
+	/*
+	Make sure the depth is no larger than the users desired depth
+	if so, increment depth and continue
+	if not do not continue on from this depth
+	*/
+	if (depth <= MaxDepth)
+	{ 
+		depth++;
+		/* Determine which positions you can swap with*/
+		int swapPositions[4];
+		for (int i = 0; i < 4; i++)
+		{
+			swapPositions[i] = -10;
+		}
+		ZeroPos = locateZero(topRow, middleRow, bottomRow); // redundant but a good measure
+		determineSwapOptions(topRow, middleRow, bottomRow, ZeroPos, swapPositions);
+
+		/*
+		Determine where the zero is located then where each swap position is located
+		once each swap location is determined, swap the nodes and call the function again
+		*/
+		int j = 0;
+		if (ZeroPos >= 3 && ZeroPos < 6)
+		{
+			// Zero Location: middle row
+
+			while (swapPositions[j] != -10 && j < 4)
+			{
+				string tempTop, tempMiddle, tempBottom;
+				tempTop = topRow;
+				tempMiddle = middleRow;
+				tempBottom = bottomRow;
+
+				if (swapPositions[j] >= 3 && swapPositions[j] < 6)
+				{
+					// Swap Node Location: middle row
+					int tempZeroPos = locateZero(topRow, middleRow, bottomRow);
+					tempZeroPos = tempZeroPos - 3;
+
+					int tempSwapNodePosition = swapPositions[j] - 3;
+					swap(tempMiddle, tempMiddle, tempZeroPos, tempSwapNodePosition);
+					if (comparePrevousOrientations(tempTop, tempMiddle, tempBottom))
+					{
+						tempZeroPos = locateZero(tempTop, tempMiddle, tempBottom); // redundant but a good measure
+						depthSolutionSearch(tempTop, tempMiddle, tempBottom, tempZeroPos, depth, MaxDepth);
+					}
+				}
+				else if (swapPositions[j] >= 6 && swapPositions[j] < 9)
+				{
+					// Swap Node Location: bottom row
+					int tempZeroPos = locateZero(topRow, middleRow, bottomRow);
+					tempZeroPos = tempZeroPos - 3;
+
+					int tempSwapNodePosition = swapPositions[j] - 6;
+					swap(tempMiddle, tempBottom, tempZeroPos, tempSwapNodePosition);
+					if (comparePrevousOrientations(tempTop, tempMiddle, tempBottom))
+					{
+						tempZeroPos = locateZero(tempTop, tempMiddle, tempBottom); // redundant but a good measure
+						depthSolutionSearch(tempTop, tempMiddle, tempBottom, tempZeroPos, depth, MaxDepth);
+					}
+				}
+				else
+				{
+					// Swap Node Location: top row
+					int tempZeroPos = locateZero(topRow, middleRow, bottomRow);
+					tempZeroPos = tempZeroPos - 3;
+
+					int tempSwapNodePosition = swapPositions[j];
+					swap(tempMiddle, tempTop, tempZeroPos, tempSwapNodePosition);
+					if (comparePrevousOrientations(tempTop, tempMiddle, tempBottom))
+					{
+						tempZeroPos = locateZero(tempTop, tempMiddle, tempBottom); // redundant but a good measure
+						depthSolutionSearch(tempTop, tempMiddle, tempBottom, tempZeroPos, depth, MaxDepth);
+					}
+				}
+
+				j++;
+			}
+			
+		}
+		else if (ZeroPos >= 6 && ZeroPos < 9)
+		{
+			// Zero Location: bottom row
+			while (swapPositions[j] != -10 && j < 4)
+			{
+				string tempTop, tempMiddle, tempBottom;
+				tempTop = topRow;
+				tempMiddle = middleRow;
+				tempBottom = bottomRow;
+
+				if (swapPositions[j] >= 3 && swapPositions[j] < 6)
+				{
+					// Swap Node Location: middle row
+					int tempZeroPos = locateZero(topRow, middleRow, bottomRow);
+					tempZeroPos = tempZeroPos - 6;
+
+					int tempSwapNodePosition = swapPositions[j] - 3;
+					swap(tempBottom, tempMiddle, tempZeroPos, tempSwapNodePosition);
+					if (comparePrevousOrientations(tempTop, tempMiddle, tempBottom))
+					{
+						tempZeroPos = locateZero(tempTop, tempMiddle, tempBottom); // redundant but a good measure
+						depthSolutionSearch(tempTop, tempMiddle, tempBottom, tempZeroPos, depth, MaxDepth);
+					}
+				}
+				else if (swapPositions[j] >= 6 && swapPositions[j] < 9)
+				{
+					// Swap Node Location: bottom row
+					int tempZeroPos = locateZero(topRow, middleRow, bottomRow);
+					tempZeroPos = tempZeroPos - 6;
+
+					int tempSwapNodePosition = swapPositions[j] - 6;
+					swap(tempBottom, tempBottom, tempZeroPos, tempSwapNodePosition);
+					if (comparePrevousOrientations(tempTop, tempMiddle, tempBottom))
+					{
+						tempZeroPos = locateZero(tempTop, tempMiddle, tempBottom); // redundant but a good measure
+						depthSolutionSearch(tempTop, tempMiddle, tempBottom, tempZeroPos, depth, MaxDepth);
+					}
+				}
+				else
+				{
+					// Swap Node Location: top row
+					int tempZeroPos = locateZero(topRow, middleRow, bottomRow);
+					tempZeroPos = tempZeroPos - 6;
+
+					int tempSwapNodePosition = swapPositions[j];
+					swap(tempBottom, tempTop, tempZeroPos, tempSwapNodePosition);
+					if (comparePrevousOrientations(tempTop, tempMiddle, tempBottom))
+					{
+						tempZeroPos = locateZero(tempTop, tempMiddle, tempBottom); // redundant but a good measure
+						depthSolutionSearch(tempTop, tempMiddle, tempBottom, tempZeroPos, depth, MaxDepth);
+					}
+				}
+
+				j++;
+			}
+			
+		}
+		else
+		{
+			// Zero Location: top row
+
+			while (swapPositions[j] != -10 && j < 4)
+			{
+				string tempTop, tempMiddle, tempBottom;
+				tempTop = topRow;
+				tempMiddle = middleRow;
+				tempBottom = bottomRow;
+
+				if (swapPositions[j] >= 3 && swapPositions[j] < 6)
+				{
+					// Swap Node Location: middle row
+					int tempZeroPos = locateZero(topRow, middleRow, bottomRow);
+
+					int tempSwapNodePosition = swapPositions[j] - 3;
+					swap(tempTop, tempMiddle, tempZeroPos, tempSwapNodePosition);
+					if (comparePrevousOrientations(tempTop, tempMiddle, tempBottom))
+					{
+						tempZeroPos = locateZero(tempTop, tempMiddle, tempBottom); // redundant but a good measure
+						depthSolutionSearch(tempTop, tempMiddle, tempBottom, tempZeroPos, depth, MaxDepth);
+					}
+				}
+				else if (swapPositions[j] >= 6 && swapPositions[j] < 9)
+				{
+					// Swap Node Location: bottom row
+					int tempZeroPos = locateZero(topRow, middleRow, bottomRow);
+
+					int tempSwapNodePosition = swapPositions[j] - 6;
+					swap(tempTop, tempBottom, tempZeroPos, tempSwapNodePosition);
+					if (comparePrevousOrientations(tempTop, tempMiddle, tempBottom))
+					{
+						tempZeroPos = locateZero(tempTop, tempMiddle, tempBottom); // redundant but a good measure
+						depthSolutionSearch(tempTop, tempMiddle, tempBottom, tempZeroPos, depth, MaxDepth);
+					}
+				}
+				else
+				{
+					// Swap Node Location: top row
+					int tempZeroPos = locateZero(topRow, middleRow, bottomRow);
+
+					int tempSwapNodePosition = swapPositions[j];
+					swap(tempTop, tempTop, tempZeroPos, tempSwapNodePosition);
+					if (comparePrevousOrientations(tempTop, tempMiddle, tempBottom))
+					{
+						tempZeroPos = locateZero(tempTop, tempMiddle, tempBottom); // redundant but a good measure
+						depthSolutionSearch(tempTop, tempMiddle, tempBottom, tempZeroPos, depth, MaxDepth);
+					}
+				}
+
+				j++;
+			}
+			
+		}
+
+	}
+	return false; // if the solution was not found return false
+}
+void solvingFunctions:: determineSwapOptions(string topRow, string middleRow, string bottomRow, int ZeroPos, int swapPositions[])
 {
 	if (ZeroPos >= 3 && ZeroPos < 6)
 	{

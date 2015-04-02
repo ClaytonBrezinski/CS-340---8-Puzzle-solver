@@ -86,44 +86,18 @@ char readIn(string& topRow, string& middleRow, string& bottomRow)
 	}
 	return choice;
 }
-void additionalReadIn(char readInChoice)
+void solvingFunctions:: functionCaller(char choice, string topRow, string middleRow, string bottomRow, int ZeroPos)
 {
-	cout << "A - Depth first" << endl;
-	cout << "D - Number of tiles out of place" << endl << "E - minimum number of moves to reach the goal state  " << endl << "  F - heuristic" << endl;
-
-	if (readInChoice == 'A')
+	switch (choice)
+	{
+	case 'A':
 	{
 		int depth;
 		cout << " Please enter the depth at which you want the search to go: " << endl;
 		cin >> depth;
-		depthFirstSearch(depth);
+		depthFirstSearch(topRow, middleRow, bottomRow, ZeroPos, depth);
+		break;
 	}
-	else if (readInChoice == 'D')
-	{
-		//tilesOutOfPlace();
-		bestFirstTiles();
-	}
-	else if (readInChoice == 'E')
-	{
-		int manhattanDistance;
-		//manhattanDistance = manhattanDistance();
-		bestFirstMoves();
-	}
-	else if (readInChoice == 'F')
-	{
-		int heuristic, totDist, seq;
-		//totDist = totalDistance();
-		//seq = sequenceScore();
-		//heruistic = totdist + 3*seq;
-		bestFirstHeuristic(heuristic);
-	}
-
-}
-void functionCaller(char choice)
-{
-	switch (choice)
-	{
-	case 'A': depthFirstSearch();
 	case 'B': breadthFirstSearch();
 	case 'C': cout << "error in switch" << endl;
 	case 'D':
@@ -134,17 +108,19 @@ void functionCaller(char choice)
 	}
 	case 'E':
 	{
-		// need to continue on this
+		//int manhattanDistance;
+		//manhattanDistance = manhattanDistance();
 		bestFirstMoves();
 		break;
 	}
 	case 'F':
 	{
-		int heuristic;
-		cout << " Please enter a heuristic value" << endl;
-		cin >> heuristic;
-
-		bestFirstHeuristic(heuristic);
+		//int heuristic, totDist, seq;
+		//totDist = totalDistance();
+		//seq = sequenceScore();
+		//heruistic = totdist + 3*seq;
+		//bestFirstHeuristic(heuristic);
+		//bestFirstHeuristic(heuristic);
 		break;
 	}
 	}
