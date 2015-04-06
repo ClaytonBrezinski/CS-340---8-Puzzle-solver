@@ -27,7 +27,7 @@ void solvingFunctions:: bestFirstTiles(string topRow, string middleRow, string b
 void solvingFunctions:: bestFirstMoves(string topRow, string middleRow, string bottomRow, int ZeroPos)
 {
 	pushCurrentOrientation(topRow, middleRow, bottomRow);
-	bool result = bestFirstTilesSolver(topRow, middleRow, bottomRow, ZeroPos);
+	bool result = bestFirstMovesSolver(topRow, middleRow, bottomRow, ZeroPos);
 	if (result != true)
 	{
 		cout << "goal orientation not achieved" << endl;
@@ -440,38 +440,18 @@ bool solvingFunctions:: bestFirstTilesSolver(string topRow, string middleRow, st
 	ZeroPos = locateZero(topRow, middleRow, bottomRow); // redundant but a good measure
 	determineSwapOptions(topRow, middleRow, bottomRow, ZeroPos, swapPositions);
 
-	/* order options lowest to highest number of tiles out of place*/
-	int a, b, c, d;
-
-	a = swapPositions[0];
-	b = swapPositions[1];
-	c = swapPositions[2];
-	d = swapPositions[3];
-
-	if (a > b)
-	{
-		swap(a, b);		// a < b
-	}
-	if (c > d)
-	{
-		swap(c, d);		// c < d
-	}
-	if (c > a)
-	{
-		swap(a, c);		// a < c
-	}
-	if (d > b)
-	{
-		swap(b, d);		// b < d
-	}
-
-	swapPositions[0] = a;
-	swapPositions[1] = b;
-	swapPositions[2] = c;
-	swapPositions[3] = d;
-
-	//bestFirstTilesSolver(string topRow, string middleRow, string bottomRow, int ZeroPos)
+	// determine which orientation will yield the lowest amount of tiles out of place
 	int j = 0;
+	int numTilesOutOfPlace[4];	//holder for amounts of moves
+	for (int i = 0; i < 4; i++)
+	{
+		numTilesOutOfPlace[i] = -10;
+	}
+
+	if (ZeroPos >= 3 && ZeroPos < 6)
+	{
+		// Zero Location: middle row
+
 		while (swapPositions[j] != -10 && j < 4)
 		{
 			string tempTop, tempMiddle, tempBottom;
@@ -479,30 +459,217 @@ bool solvingFunctions:: bestFirstTilesSolver(string topRow, string middleRow, st
 			tempMiddle = middleRow;
 			tempBottom = bottomRow;
 
+			// given that the zero location is in the middle row
+			int tempZeroPos = locateZero(topRow, middleRow, bottomRow);
+			tempZeroPos = tempZeroPos - 3;
+
 			if (swapPositions[j] >= 3 && swapPositions[j] < 6)
 			{
 				// Swap Node Location: middle row
+
+				int tempSwapNodePosition = swapPositions[j] - 3;
+				swap(tempTop, tempMiddle, tempZeroPos, tempSwapNodePosition);
+				numTilesOutOfPlace[j] = tilesOutOfPlace(tempTop, tempMiddle, tempBottom);
+
+			}
+			else if (swapPositions[j] >= 6 && swapPositions[j] < 9)
+			{
+				// Swap Node Location: bottom row
+
+				int tempSwapNodePosition = swapPositions[j] - 6;
+				swap(tempTop, tempBottom, tempZeroPos, tempSwapNodePosition);
+				numTilesOutOfPlace[j] = tilesOutOfPlace(tempTop, tempMiddle, tempBottom);
+			}
+			else
+			{
+				// Swap Node Location: top row
+
+				int tempSwapNodePosition = swapPositions[j];
+				swap(tempTop, tempTop, tempZeroPos, tempSwapNodePosition);
+				numTilesOutOfPlace[j] = tilesOutOfPlace(tempTop, tempMiddle, tempBottom);
+			}
+			j++;
+		}
+
+	}
+	else if (ZeroPos >= 6 && ZeroPos < 9)
+	{
+		// Zero Location: bottom row
+		while (swapPositions[j] != -10 && j < 4)
+		{
+			string tempTop, tempMiddle, tempBottom;
+			tempTop = topRow;
+			tempMiddle = middleRow;
+			tempBottom = bottomRow;
+
+			// given that the zero location is in the bottom row
+			int tempZeroPos = locateZero(topRow, middleRow, bottomRow);
+			tempZeroPos = tempZeroPos - 6;
+
+			if (swapPositions[j] >= 3 && swapPositions[j] < 6)
+			{
+				// Swap Node Location: middle row
+
+				int tempSwapNodePosition = swapPositions[j] - 3;
+				swap(tempBottom, tempMiddle, tempZeroPos, tempSwapNodePosition);
+				numTilesOutOfPlace[j] = tilesOutOfPlace(tempTop, tempMiddle, tempBottom);
+
+			}
+			else if (swapPositions[j] >= 6 && swapPositions[j] < 9)
+			{
+				// Swap Node Location: bottom row
+
+				int tempSwapNodePosition = swapPositions[j] - 6;
+				swap(tempBottom, tempBottom, tempZeroPos, tempSwapNodePosition);
+				numTilesOutOfPlace[j] = tilesOutOfPlace(tempTop, tempMiddle, tempBottom);
+			}
+			else
+			{
+				// Swap Node Location: top row
+
+				int tempSwapNodePosition = swapPositions[j];
+				swap(tempBottom, tempTop, tempZeroPos, tempSwapNodePosition);
+				numTilesOutOfPlace[j] = tilesOutOfPlace(tempTop, tempMiddle, tempBottom);
+			}
+			j++;
+		}
+
+	}
+	else
+	{
+		// Zero Location: top row
+
+		while (swapPositions[j] != -10 && j < 4)
+		{
+			string tempTop, tempMiddle, tempBottom;
+			tempTop = topRow;
+			tempMiddle = middleRow;
+			tempBottom = bottomRow;
+
+			// given that the zero location is in the top row
+			int tempZeroPos = locateZero(topRow, middleRow, bottomRow);
+			tempZeroPos = tempZeroPos;
+
+			if (swapPositions[j] >= 3 && swapPositions[j] < 6)
+			{
+				// Swap Node Location: middle row
+
+				int tempSwapNodePosition = swapPositions[j] - 3;
+				swap(tempTop, tempMiddle, tempZeroPos, tempSwapNodePosition);
+				numTilesOutOfPlace[j] = tilesOutOfPlace(tempTop, tempMiddle, tempBottom);
+
+			}
+			else if (swapPositions[j] >= 6 && swapPositions[j] < 9)
+			{
+				// Swap Node Location: bottom row
 				int tempZeroPos = locateZero(topRow, middleRow, bottomRow);
-				tempZeroPos = tempZeroPos - 3;
+
+				int tempSwapNodePosition = swapPositions[j] - 6;
+				swap(tempTop, tempBottom, tempZeroPos, tempSwapNodePosition);
+				numTilesOutOfPlace[j] = tilesOutOfPlace(tempTop, tempMiddle, tempBottom);
+			}
+			else
+			{
+				// Swap Node Location: top row
+
+				int tempSwapNodePosition = swapPositions[j];
+				swap(tempTop, tempTop, tempZeroPos, tempSwapNodePosition);
+				numTilesOutOfPlace[j] = tilesOutOfPlace(tempTop, tempMiddle, tempBottom);
+			}
+			j++;
+		}
+
+	}
+	// order the nodes from lowest amount of moves to the largest
+	int a, b, c, d;
+	int e, f, g, h;
+
+	a = numTilesOutOfPlace[0];
+	b = numTilesOutOfPlace[1];
+	c = numTilesOutOfPlace[2];
+	d = numTilesOutOfPlace[3];
+
+	e = swapPositions[0];
+	f = swapPositions[1];
+	g = swapPositions[2];
+	h = swapPositions[3];
+
+	if (a > b)
+	{
+		swap(a, b);
+		swap(e, f);		// a < b
+	}
+	if (c > d && d != -10)
+	{
+		swap(c, d);
+		swap(g, h);		// c < d
+	}
+	if (c < a && c != -10)
+	{
+		swap(a, c);
+		swap(e, g);		// a < c
+	}
+	if (d < b && d != -10)
+	{
+		swap(b, d);
+		swap(f, h);		// b < d
+	}
+	if (b > c && c != -10)
+	{
+		swap(b, c);
+		swap(f, g);
+	}
+	
+	//good for trouble shooting
+	numTilesOutOfPlace[0] = a;
+	numTilesOutOfPlace[1] = b;
+	numTilesOutOfPlace[2] = c;
+	numTilesOutOfPlace[3] = d;
+	
+
+	swapPositions[0] = e;
+	swapPositions[1] = f;
+	swapPositions[2] = g;
+	swapPositions[3] = h;
+
+
+
+	j = 0;
+	if (ZeroPos >= 3 && ZeroPos < 6)
+	{
+		// Zero Location: middle row
+
+		while (swapPositions[j] != -10 && j < 4)
+		{
+			string tempTop, tempMiddle, tempBottom;
+			tempTop = topRow;
+			tempMiddle = middleRow;
+			tempBottom = bottomRow;
+
+			// given that the zero location is in the middle row
+			int tempZeroPos = locateZero(topRow, middleRow, bottomRow);
+			tempZeroPos = tempZeroPos - 3;
+
+			if (swapPositions[j] >= 3 && swapPositions[j] < 6)
+			{
+				// Swap Node Location: middle row
 
 				int tempSwapNodePosition = swapPositions[j] - 3;
 				swap(tempMiddle, tempMiddle, tempZeroPos, tempSwapNodePosition);
 				if (comparePrevousOrientations(tempTop, tempMiddle, tempBottom))
 				{
 					tempZeroPos = locateZero(tempTop, tempMiddle, tempBottom); // redundant but a good measure
-					
+
 					if (bestFirstTilesSolver(tempTop, tempMiddle, tempBottom, tempZeroPos))
 					{
 						return true;
 					}
-					
+
 				}
 			}
 			else if (swapPositions[j] >= 6 && swapPositions[j] < 9)
 			{
 				// Swap Node Location: bottom row
-				int tempZeroPos = locateZero(topRow, middleRow, bottomRow);
-				tempZeroPos = tempZeroPos - 3;
 
 				int tempSwapNodePosition = swapPositions[j] - 6;
 				swap(tempMiddle, tempBottom, tempZeroPos, tempSwapNodePosition);
@@ -518,8 +685,6 @@ bool solvingFunctions:: bestFirstTilesSolver(string topRow, string middleRow, st
 			else
 			{
 				// Swap Node Location: top row
-				int tempZeroPos = locateZero(topRow, middleRow, bottomRow);
-				tempZeroPos = tempZeroPos - 3;
 
 				int tempSwapNodePosition = swapPositions[j];
 				swap(tempMiddle, tempTop, tempZeroPos, tempSwapNodePosition);
@@ -535,6 +700,139 @@ bool solvingFunctions:: bestFirstTilesSolver(string topRow, string middleRow, st
 
 			j++;
 		}
+
+	}
+	else if (ZeroPos >= 6 && ZeroPos < 9)
+	{
+		// Zero Location: bottom row
+		while (swapPositions[j] != -10 && j < 4)
+		{
+			string tempTop, tempMiddle, tempBottom;
+			tempTop = topRow;
+			tempMiddle = middleRow;
+			tempBottom = bottomRow;
+
+			// given that the zero location is in the bottom row
+			int tempZeroPos = locateZero(topRow, middleRow, bottomRow);
+			tempZeroPos = tempZeroPos - 6;
+
+			if (swapPositions[j] >= 3 && swapPositions[j] < 6)
+			{
+				// Swap Node Location: middle row
+		
+				int tempSwapNodePosition = swapPositions[j] - 3;
+				swap(tempBottom, tempMiddle, tempZeroPos, tempSwapNodePosition);
+				if (comparePrevousOrientations(tempTop, tempMiddle, tempBottom))
+				{
+					tempZeroPos = locateZero(tempTop, tempMiddle, tempBottom); // redundant but a good measure
+
+					if (bestFirstTilesSolver(tempTop, tempMiddle, tempBottom, tempZeroPos))
+					{
+						return true;
+					}
+
+				}
+			}
+			else if (swapPositions[j] >= 6 && swapPositions[j] < 9)
+			{
+				// Swap Node Location: bottom row
+				int tempSwapNodePosition = swapPositions[j] - 6;
+				swap(tempBottom, tempBottom, tempZeroPos, tempSwapNodePosition);
+				if (comparePrevousOrientations(tempTop, tempMiddle, tempBottom))
+				{
+					tempZeroPos = locateZero(tempTop, tempMiddle, tempBottom); // redundant but a good measure
+					if (bestFirstTilesSolver(tempTop, tempMiddle, tempBottom, tempZeroPos))
+					{
+						return true;
+					}
+				}
+			}
+			else
+			{
+				// Swap Node Location: top row
+				int tempSwapNodePosition = swapPositions[j];
+				swap(tempBottom, tempTop, tempZeroPos, tempSwapNodePosition);
+				if (comparePrevousOrientations(tempTop, tempMiddle, tempBottom))
+				{
+					tempZeroPos = locateZero(tempTop, tempMiddle, tempBottom); // redundant but a good measure
+					if (bestFirstTilesSolver(tempTop, tempMiddle, tempBottom, tempZeroPos))
+					{
+						return true;
+					}
+				}
+			}
+
+			j++;
+		}
+
+	}
+	else
+	{
+		// Zero Location: top row
+
+		while (swapPositions[j] != -10 && j < 4)
+		{
+			string tempTop, tempMiddle, tempBottom;
+			tempTop = topRow;
+			tempMiddle = middleRow;
+			tempBottom = bottomRow;
+
+			// given that the zero location is in the top row
+			int tempZeroPos = locateZero(topRow, middleRow, bottomRow);
+			tempZeroPos = tempZeroPos;
+
+			if (swapPositions[j] >= 3 && swapPositions[j] < 6)
+			{
+				// Swap Node Location: middle row
+
+
+				int tempSwapNodePosition = swapPositions[j] - 3;
+				swap(tempTop, tempMiddle, tempZeroPos, tempSwapNodePosition);
+				if (comparePrevousOrientations(tempTop, tempMiddle, tempBottom))
+				{
+					tempZeroPos = locateZero(tempTop, tempMiddle, tempBottom); // redundant but a good measure
+
+					if (bestFirstTilesSolver(tempTop, tempMiddle, tempBottom, tempZeroPos))
+					{
+						return true;
+					}
+
+				}
+			}
+			else if (swapPositions[j] >= 6 && swapPositions[j] < 9)
+			{
+				// Swap Node Location: bottom row
+
+				int tempSwapNodePosition = swapPositions[j] - 6;
+				swap(tempTop, tempBottom, tempZeroPos, tempSwapNodePosition);
+				if (comparePrevousOrientations(tempTop, tempMiddle, tempBottom))
+				{
+					tempZeroPos = locateZero(tempTop, tempMiddle, tempBottom); // redundant but a good measure
+					if (bestFirstTilesSolver(tempTop, tempMiddle, tempBottom, tempZeroPos))
+					{
+						return true;
+					}
+				}
+			}
+			else
+			{
+				// Swap Node Location: top row
+				int tempSwapNodePosition = swapPositions[j];
+				swap(tempTop, tempTop, tempZeroPos, tempSwapNodePosition);
+				if (comparePrevousOrientations(tempTop, tempMiddle, tempBottom))
+				{
+					tempZeroPos = locateZero(tempTop, tempMiddle, tempBottom); // redundant but a good measure
+					if (bestFirstTilesSolver(tempTop, tempMiddle, tempBottom, tempZeroPos))
+					{
+						return true;
+					}
+				}
+			}
+
+			j++;
+		}
+
+	}
 		return false; // if the solution was not found return false
 }
 bool solvingFunctions:: bestFirstMovesSolver(string topRow, string middleRow, string bottomRow, int ZeroPos)
@@ -566,140 +864,392 @@ bool solvingFunctions:: bestFirstMovesSolver(string topRow, string middleRow, st
 	{
 		movesToGoalState[i] = -10;
 	}
-	while (swapPositions[j] != -10 && j < 4)
+
+	if (ZeroPos >= 3 && ZeroPos < 6)
 	{
-		string tempTop, tempMiddle, tempBottom;
-		tempTop = topRow;
-		tempMiddle = middleRow;
-		tempBottom = bottomRow;
+		// Zero Location: middle row
 
-		if (swapPositions[j] >= 3 && swapPositions[j] < 6)
+		while (swapPositions[j] != -10 && j < 4)
 		{
-			// Swap Node Location: middle row
+			string tempTop, tempMiddle, tempBottom;
+			tempTop = topRow;
+			tempMiddle = middleRow;
+			tempBottom = bottomRow;
+
+			// given that the zero location is in the middle row
 			int tempZeroPos = locateZero(topRow, middleRow, bottomRow);
 			tempZeroPos = tempZeroPos - 3;
 
-			int tempSwapNodePosition = swapPositions[j] - 3;
-			swap(tempMiddle, tempMiddle, tempZeroPos, tempSwapNodePosition);
-			movesToGoalState[j] = movesUntilGoalState(tempTop, tempMiddle, tempBottom);
+			if (swapPositions[j] >= 3 && swapPositions[j] < 6)
+			{
+				// Swap Node Location: middle row
 
+				int tempSwapNodePosition = swapPositions[j] - 3;
+				swap(tempTop, tempMiddle, tempZeroPos, tempSwapNodePosition);
+				movesToGoalState[j] = movesUntilGoalState(tempTop, tempMiddle, tempBottom);
+
+			}
+			else if (swapPositions[j] >= 6 && swapPositions[j] < 9)
+			{
+				// Swap Node Location: bottom row
+
+				int tempSwapNodePosition = swapPositions[j] - 6;
+				swap(tempTop, tempBottom, tempZeroPos, tempSwapNodePosition);
+				movesToGoalState[j] = movesUntilGoalState(tempTop, tempMiddle, tempBottom);
+			}
+			else
+			{
+				// Swap Node Location: top row
+
+				int tempSwapNodePosition = swapPositions[j];
+				swap(tempTop, tempTop, tempZeroPos, tempSwapNodePosition);
+				movesToGoalState[j] = movesUntilGoalState(tempTop, tempMiddle, tempBottom);
+			}
+			j++;
 		}
-		else if (swapPositions[j] >= 6 && swapPositions[j] < 9)
+
+	}
+	else if (ZeroPos >= 6 && ZeroPos < 9)
+	{
+		// Zero Location: bottom row
+		while (swapPositions[j] != -10 && j < 4)
 		{
-			// Swap Node Location: bottom row
-			int tempZeroPos = locateZero(topRow, middleRow, bottomRow);
-			tempZeroPos = tempZeroPos - 3;
+			string tempTop, tempMiddle, tempBottom;
+			tempTop = topRow;
+			tempMiddle = middleRow;
+			tempBottom = bottomRow;
 
-			int tempSwapNodePosition = swapPositions[j] - 6;
-			swap(tempMiddle, tempBottom, tempZeroPos, tempSwapNodePosition);
-			movesToGoalState[j] = movesUntilGoalState(tempTop, tempMiddle, tempBottom);
+			// given that the zero location is in the bottom row
+			int tempZeroPos = locateZero(topRow, middleRow, bottomRow);
+			tempZeroPos = tempZeroPos - 6;
+
+			if (swapPositions[j] >= 3 && swapPositions[j] < 6)
+			{
+				// Swap Node Location: middle row
+
+				int tempSwapNodePosition = swapPositions[j] - 3;
+				swap(tempBottom, tempMiddle, tempZeroPos, tempSwapNodePosition);
+				movesToGoalState[j] = movesUntilGoalState(tempTop, tempMiddle, tempBottom);
+
+			}
+			else if (swapPositions[j] >= 6 && swapPositions[j] < 9)
+			{
+				// Swap Node Location: bottom row
+
+				int tempSwapNodePosition = swapPositions[j] - 6;
+				swap(tempBottom, tempBottom, tempZeroPos, tempSwapNodePosition);
+				movesToGoalState[j] = movesUntilGoalState(tempTop, tempMiddle, tempBottom);
+			}
+			else
+			{
+				// Swap Node Location: top row
+
+				int tempSwapNodePosition = swapPositions[j];
+				swap(tempBottom, tempTop, tempZeroPos, tempSwapNodePosition);
+				movesToGoalState[j] = movesUntilGoalState(tempTop, tempMiddle, tempBottom);
+			}
+			j++;
 		}
-		else
+
+	}
+	else
+	{
+		// Zero Location: top row
+
+		while (swapPositions[j] != -10 && j < 4)
 		{
-			// Swap Node Location: top row
-			int tempZeroPos = locateZero(topRow, middleRow, bottomRow);
-			tempZeroPos = tempZeroPos - 3;
+			string tempTop, tempMiddle, tempBottom;
+			tempTop = topRow;
+			tempMiddle = middleRow;
+			tempBottom = bottomRow;
 
-			int tempSwapNodePosition = swapPositions[j];
-			swap(tempMiddle, tempTop, tempZeroPos, tempSwapNodePosition);
-			movesToGoalState[j] = movesUntilGoalState(tempTop, tempMiddle, tempBottom);
+			// given that the zero location is in the top row
+			int tempZeroPos = locateZero(topRow, middleRow, bottomRow);
+			tempZeroPos = tempZeroPos;
+
+			if (swapPositions[j] >= 3 && swapPositions[j] < 6)
+			{
+				// Swap Node Location: middle row
+
+				int tempSwapNodePosition = swapPositions[j] - 3;
+				swap(tempTop, tempMiddle, tempZeroPos, tempSwapNodePosition);
+				movesToGoalState[j] = movesUntilGoalState(tempTop, tempMiddle, tempBottom);
+
+			}
+			else if (swapPositions[j] >= 6 && swapPositions[j] < 9)
+			{
+				// Swap Node Location: bottom row
+				int tempZeroPos = locateZero(topRow, middleRow, bottomRow);
+
+				int tempSwapNodePosition = swapPositions[j] - 6;
+				swap(tempTop, tempBottom, tempZeroPos, tempSwapNodePosition);
+				movesToGoalState[j] = movesUntilGoalState(tempTop, tempMiddle, tempBottom);
+			}
+			else
+			{
+				// Swap Node Location: top row
+
+				int tempSwapNodePosition = swapPositions[j];
+				swap(tempTop, tempTop, tempZeroPos, tempSwapNodePosition);
+				movesToGoalState[j] = movesUntilGoalState(tempTop, tempMiddle, tempBottom);
+			}
+			j++;
 		}
-		j++;
+
 	}
 	// order the nodes from lowest amount of moves to the largest
 	int a, b, c, d;
+	int e, f, g, h;
 
-	a = swapPositions[0];
-	b = swapPositions[1];
-	c = swapPositions[2];
-	d = swapPositions[3];
+	a = movesToGoalState[0];
+	b = movesToGoalState[1];
+	c = movesToGoalState[2];
+	d = movesToGoalState[3];
+
+	e = swapPositions[0];
+	f = swapPositions[1];
+	g = swapPositions[2];
+	h = swapPositions[3];
 
 	if (a > b)
 	{
-		swap(a, b);		// a < b
+		swap(a, b);
+		swap(e, f);		// a < b
 	}
-	if (c > d)
+	if (c > d && d != -10)
 	{
-		swap(c, d);		// c < d
+		swap(c, d);
+		swap(g, h);		// c < d
 	}
-	if (c > a)
+	if (c < a && c != -10)
 	{
-		swap(a, c);		// a < c
+		swap(a, c);
+		swap(e, g);		// a < c
 	}
-	if (d > b)
+	if (d < b && d != -10)
 	{
-		swap(b, d);		// b < d
+		swap(b, d);
+		swap(f, h);		// b < d
 	}
+	if (b > c && c != -10)
+	{
+		swap(b, c);
+		swap(f, g);
+	}
+	/* 
+	good for trouble shooting 
+	movesToGoalState[0] = a;
+	movesToGoalState[1] = b;
+	movesToGoalState[2] = c;
+	movesToGoalState[3] = d;
+	*/
 
-	swapPositions[0] = a;
-	swapPositions[1] = b;
-	swapPositions[2] = c;
-	swapPositions[3] = d;
+	swapPositions[0] = e;
+	swapPositions[1] = f;
+	swapPositions[2] = g;
+	swapPositions[3] = h;
+
+
 
 	// perform the swaps based on the most efficient going before the lesser efficient
 	j = 0;
-	while (swapPositions[j] != -10 && j < 4)
+	if (ZeroPos >= 3 && ZeroPos < 6)
 	{
-		string tempTop, tempMiddle, tempBottom;
-		tempTop = topRow;
-		tempMiddle = middleRow;
-		tempBottom = bottomRow;
+		// Zero Location: middle row
 
-		if (swapPositions[j] >= 3 && swapPositions[j] < 6)
+		while (swapPositions[j] != -10 && j < 4)
 		{
-			// Swap Node Location: middle row
-			int tempZeroPos = locateZero(topRow, middleRow, bottomRow);
-			tempZeroPos = tempZeroPos - 3;
-			
-			int tempSwapNodePosition = swapPositions[j] - 3;
-			swap(tempMiddle, tempMiddle, tempZeroPos, tempSwapNodePosition);
-			if (comparePrevousOrientations(tempTop, tempMiddle, tempBottom))
-			{
-				tempZeroPos = locateZero(tempTop, tempMiddle, tempBottom); // redundant but a good measure
-				
-				if (bestFirstMovesSolver(tempTop, tempMiddle, tempBottom, tempZeroPos))
-				{
-					return true;
-				}
-				
-			}
-		}
-		else if (swapPositions[j] >= 6 && swapPositions[j] < 9)
-		{
-			// Swap Node Location: bottom row
+			string tempTop, tempMiddle, tempBottom;
+			tempTop = topRow;
+			tempMiddle = middleRow;
+			tempBottom = bottomRow;
+
+			// given that the zero location is in the middle row
 			int tempZeroPos = locateZero(topRow, middleRow, bottomRow);
 			tempZeroPos = tempZeroPos - 3;
 
-			int tempSwapNodePosition = swapPositions[j] - 6;
-			swap(tempMiddle, tempBottom, tempZeroPos, tempSwapNodePosition);
-			if (comparePrevousOrientations(tempTop, tempMiddle, tempBottom))
+			if (swapPositions[j] >= 3 && swapPositions[j] < 6)
 			{
-				tempZeroPos = locateZero(tempTop, tempMiddle, tempBottom); // redundant but a good measure
-				if (bestFirstMovesSolver(tempTop, tempMiddle, tempBottom, tempZeroPos))
+				// Swap Node Location: middle row
+
+				int tempSwapNodePosition = swapPositions[j] - 3;
+				swap(tempMiddle, tempMiddle, tempZeroPos, tempSwapNodePosition);
+				if (comparePrevousOrientations(tempTop, tempMiddle, tempBottom))
 				{
-					return true;
+					tempZeroPos = locateZero(tempTop, tempMiddle, tempBottom); // redundant but a good measure
+
+					if (bestFirstMovesSolver(tempTop, tempMiddle, tempBottom, tempZeroPos))
+					{
+						return true;
+					}
+
 				}
 			}
-		}
-		else
-		{
-			// Swap Node Location: top row
-			int tempZeroPos = locateZero(topRow, middleRow, bottomRow);
-			tempZeroPos = tempZeroPos - 3;
-			
-			int tempSwapNodePosition = swapPositions[j];
-			swap(tempMiddle, tempTop, tempZeroPos, tempSwapNodePosition);
-			if (comparePrevousOrientations(tempTop, tempMiddle, tempBottom))
+			else if (swapPositions[j] >= 6 && swapPositions[j] < 9)
 			{
-				tempZeroPos = locateZero(tempTop, tempMiddle, tempBottom); // redundant but a good measure
-				if (bestFirstMovesSolver(tempTop, tempMiddle, tempBottom, tempZeroPos))
+				// Swap Node Location: bottom row
+
+				int tempSwapNodePosition = swapPositions[j] - 6;
+				swap(tempMiddle, tempBottom, tempZeroPos, tempSwapNodePosition);
+				if (comparePrevousOrientations(tempTop, tempMiddle, tempBottom))
 				{
-					return true;
+					tempZeroPos = locateZero(tempTop, tempMiddle, tempBottom); // redundant but a good measure
+					if (bestFirstMovesSolver(tempTop, tempMiddle, tempBottom, tempZeroPos))
+					{
+						return true;
+					}
 				}
 			}
+			else
+			{
+				// Swap Node Location: top row
+
+				int tempSwapNodePosition = swapPositions[j];
+				swap(tempMiddle, tempTop, tempZeroPos, tempSwapNodePosition);
+				if (comparePrevousOrientations(tempTop, tempMiddle, tempBottom))
+				{
+					tempZeroPos = locateZero(tempTop, tempMiddle, tempBottom); // redundant but a good measure
+					if (bestFirstMovesSolver(tempTop, tempMiddle, tempBottom, tempZeroPos))
+					{
+						return true;
+					}
+				}
+			}
+
+			j++;
 		}
 
-		j++;
+	}
+	else if (ZeroPos >= 6 && ZeroPos < 9)
+	{
+		// Zero Location: bottom row
+		while (swapPositions[j] != -10 && j < 4)
+		{
+			string tempTop, tempMiddle, tempBottom;
+			tempTop = topRow;
+			tempMiddle = middleRow;
+			tempBottom = bottomRow;
+
+			// given that the zero location is in the bottom row
+			int tempZeroPos = locateZero(topRow, middleRow, bottomRow);
+			tempZeroPos = tempZeroPos - 6;
+
+			if (swapPositions[j] >= 3 && swapPositions[j] < 6)
+			{
+				// Swap Node Location: middle row
+
+				int tempSwapNodePosition = swapPositions[j] - 3;
+				swap(tempBottom, tempMiddle, tempZeroPos, tempSwapNodePosition);
+				if (comparePrevousOrientations(tempTop, tempMiddle, tempBottom))
+				{
+					tempZeroPos = locateZero(tempTop, tempMiddle, tempBottom); // redundant but a good measure
+
+					if (bestFirstMovesSolver(tempTop, tempMiddle, tempBottom, tempZeroPos))
+					{
+						return true;
+					}
+
+				}
+			}
+			else if (swapPositions[j] >= 6 && swapPositions[j] < 9)
+			{
+				// Swap Node Location: bottom row
+				int tempSwapNodePosition = swapPositions[j] - 6;
+				swap(tempBottom, tempBottom, tempZeroPos, tempSwapNodePosition);
+				if (comparePrevousOrientations(tempTop, tempMiddle, tempBottom))
+				{
+					tempZeroPos = locateZero(tempTop, tempMiddle, tempBottom); // redundant but a good measure
+					if (bestFirstMovesSolver(tempTop, tempMiddle, tempBottom, tempZeroPos))
+					{
+						return true;
+					}
+				}
+			}
+			else
+			{
+				// Swap Node Location: top row
+				int tempSwapNodePosition = swapPositions[j];
+				swap(tempBottom, tempTop, tempZeroPos, tempSwapNodePosition);
+				if (comparePrevousOrientations(tempTop, tempMiddle, tempBottom))
+				{
+					tempZeroPos = locateZero(tempTop, tempMiddle, tempBottom); // redundant but a good measure
+					if (bestFirstMovesSolver(tempTop, tempMiddle, tempBottom, tempZeroPos))
+					{
+						return true;
+					}
+				}
+			}
+
+			j++;
+		}
+
+	}
+	else
+	{
+		// Zero Location: top row
+
+		while (swapPositions[j] != -10 && j < 4)
+		{
+			string tempTop, tempMiddle, tempBottom;
+			tempTop = topRow;
+			tempMiddle = middleRow;
+			tempBottom = bottomRow;
+
+			// given that the zero location is in the top row
+			int tempZeroPos = locateZero(topRow, middleRow, bottomRow);
+			tempZeroPos = tempZeroPos;
+
+			if (swapPositions[j] >= 3 && swapPositions[j] < 6)
+			{
+				// Swap Node Location: middle row
+
+
+				int tempSwapNodePosition = swapPositions[j] - 3;
+				swap(tempTop, tempMiddle, tempZeroPos, tempSwapNodePosition);
+				if (comparePrevousOrientations(tempTop, tempMiddle, tempBottom))
+				{
+					tempZeroPos = locateZero(tempTop, tempMiddle, tempBottom); // redundant but a good measure
+
+					if (bestFirstMovesSolver(tempTop, tempMiddle, tempBottom, tempZeroPos))
+					{
+						return true;
+					}
+
+				}
+			}
+			else if (swapPositions[j] >= 6 && swapPositions[j] < 9)
+			{
+				// Swap Node Location: bottom row
+
+				int tempSwapNodePosition = swapPositions[j] - 6;
+				swap(tempTop, tempBottom, tempZeroPos, tempSwapNodePosition);
+				if (comparePrevousOrientations(tempTop, tempMiddle, tempBottom))
+				{
+					tempZeroPos = locateZero(tempTop, tempMiddle, tempBottom); // redundant but a good measure
+					if (bestFirstMovesSolver(tempTop, tempMiddle, tempBottom, tempZeroPos))
+					{
+						return true;
+					}
+				}
+			}
+			else
+			{
+				// Swap Node Location: top row
+				int tempSwapNodePosition = swapPositions[j];
+				swap(tempTop, tempTop, tempZeroPos, tempSwapNodePosition);
+				if (comparePrevousOrientations(tempTop, tempMiddle, tempBottom))
+				{
+					tempZeroPos = locateZero(tempTop, tempMiddle, tempBottom); // redundant but a good measure
+					if (bestFirstMovesSolver(tempTop, tempMiddle, tempBottom, tempZeroPos))
+					{
+						return true;
+					}
+				}
+			}
+
+			j++;
+		}
+
 	}
 	return false; // if the solution was not found return false
 }
@@ -811,7 +1361,7 @@ int solvingFunctions:: movesUntilGoalState(string topRow, string middleRow, stri
 	}
 	return totalMoves;
 }
-int solvingFunctions:: manhattanDistance(int currentSquarePosition, int squareValue)
+int solvingFunctions:: manhattanDistance(int currentSquarePosition, char squareValue)
 {
 	// determine the position of the goal square
 	int goalSquareLocation;
@@ -837,9 +1387,9 @@ int solvingFunctions:: manhattanDistance(int currentSquarePosition, int squareVa
 	once that is complete, determine how many columns the value needs to move
 	return the sum of these two results.
 	*/
-	int temp = currentSquarePosition;
+	int temp = difference;
 	int rowsToMove = temp / 3;
-	int colsToMove = difference - temp * 3;
+	int colsToMove = difference - rowsToMove * 3;
 	int returnvalue = rowsToMove + colsToMove;
 	return returnvalue;
 }

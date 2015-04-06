@@ -43,7 +43,7 @@ class solvingFunctions
 public:
 	array<string, 19999> prevousOrientations;
 	int orientationSize = 0;
-	array<treeNodes, 10000> tree;	//tree of 10,000 treeNodes
+	array<treeNodes, 1000> tree;	//tree of 10,000 treeNodes
 	void functionCaller(char choice, string topRow, string middleRow, string bottomRow, int ZeroPos);
 private:
 	void depthFirstSearch(string topRow, string middleRow, string bottomRow, int ZeroPos, int depth);
@@ -65,5 +65,5 @@ private:
 	int successorPosition(int position);
 
 	int movesUntilGoalState(string topRow, string middleRow, string bottomRow);
-	int manhattanDistance(int currentSquarePosition, int squareValue);
+	int manhattanDistance(int currentSquarePosition, char squareValue);
 };
