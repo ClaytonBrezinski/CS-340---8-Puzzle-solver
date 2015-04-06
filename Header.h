@@ -47,7 +47,7 @@ public:
 	void functionCaller(char choice, string topRow, string middleRow, string bottomRow, int ZeroPos);
 private:
 	void depthFirstSearch(string topRow, string middleRow, string bottomRow, int ZeroPos, int depth);
-	void breadthFirstSearch();
+	void breadthFirstSearch(string topRow, string middleRow, string bottomRow, int ZeroPos);
 	void bestFirstTiles(string topRow, string middleRow, string bottomRow, int ZeroPos);
 	void bestFirstMoves(string topRow, string middleRow, string bottomRow, int ZeroPos);
 	void bestFirstHeuristic(string topRow, string middleRow, string bottomRow, int ZeroPos);
@@ -56,6 +56,7 @@ private:
 	void pushCurrentOrientation(string topRow, string middleRow, string bottomRow);
 	bool comparePrevousOrientations(string topRow, string middleRow, string bottomRow);
 	bool depthSolutionSearch(string topRow, string middleRow, string bottomRow, int ZeroPos, int depth, int MaxDepth);
+	bool breadthSolutionSearch(string topRow, string middleRow, string bottomRow, int ZeroPos, int depth, int MaxDepth);
 	void determineSwapOptions(string topRow, string middleRow, string bottomRow, int ZeroPos, int swapPositions[]);
 	bool bestFirstTilesSolver(string topRow, string middleRow, string bottomRow, int ZeroPos);
 	bool bestFirstMovesSolver(string topRow, string middleRow, string bottomRow, int ZeroPos);
