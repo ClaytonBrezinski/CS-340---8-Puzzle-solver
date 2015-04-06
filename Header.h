@@ -50,7 +50,7 @@ private:
 	void breadthFirstSearch();
 	void bestFirstTiles(string topRow, string middleRow, string bottomRow, int ZeroPos);
 	void bestFirstMoves(string topRow, string middleRow, string bottomRow, int ZeroPos);
-	void bestFirstHeuristic(int heuristic);
+	void bestFirstHeuristic(string topRow, string middleRow, string bottomRow, int ZeroPos);
 	int tilesOutOfPlace(string topRow, string middleRow, string bottomRow);
 
 	void pushCurrentOrientation(string topRow, string middleRow, string bottomRow);
@@ -59,8 +59,9 @@ private:
 	void determineSwapOptions(string topRow, string middleRow, string bottomRow, int ZeroPos, int swapPositions[]);
 	bool bestFirstTilesSolver(string topRow, string middleRow, string bottomRow, int ZeroPos);
 	bool bestFirstMovesSolver(string topRow, string middleRow, string bottomRow, int ZeroPos);
+	bool bestFirstHeuristicSolver(string topRow, string middleRow, string bottomRow, int ZeroPos);
 
-	void sequenceScore(string topRow, string middleRow, string bottomRow);
+	int sequenceScore(string topRow, string middleRow, string bottomRow);
 	bool properSuccessor(string currentOrientation, char value, int position);
 	int successorPosition(int position);
 

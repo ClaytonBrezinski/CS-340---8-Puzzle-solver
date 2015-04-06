@@ -112,12 +112,7 @@ void solvingFunctions:: functionCaller(char choice, string topRow, string middle
 	}
 	case 'F':
 	{
-		//int heuristic, totDist, seq;
-		//totDist = totalDistance();
-		//seq = sequenceScore();
-		//heruistic = totdist + 3*seq;
-		//bestFirstHeuristic(heuristic);
-		//bestFirstHeuristic(heuristic);
+		bestFirstHeuristic(topRow, middleRow, bottomRow, ZeroPos);
 		break;
 	}
 	}
