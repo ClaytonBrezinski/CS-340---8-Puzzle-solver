@@ -535,6 +535,7 @@ bool solvingFunctions:: bestFirstTilesSolver(string topRow, string middleRow, st
 
 			j++;
 		}
+		return false; // if the solution was not found return false
 }
 bool solvingFunctions:: bestFirstMovesSolver(string topRow, string middleRow, string bottomRow, int ZeroPos)
 {
@@ -636,7 +637,7 @@ bool solvingFunctions:: bestFirstMovesSolver(string topRow, string middleRow, st
 	swapPositions[3] = d;
 
 	// perform the swaps based on the most efficient going before the lesser efficient
-	int j = 0;
+	j = 0;
 	while (swapPositions[j] != -10 && j < 4)
 	{
 		string tempTop, tempMiddle, tempBottom;
@@ -700,6 +701,7 @@ bool solvingFunctions:: bestFirstMovesSolver(string topRow, string middleRow, st
 
 		j++;
 	}
+	return false; // if the solution was not found return false
 }
 
 
@@ -789,6 +791,7 @@ int solvingFunctions:: successorPosition(int position)
 	{
 		return 2;
 	}
+	return 10;	// error has occured
 }
 
 int solvingFunctions:: movesUntilGoalState(string topRow, string middleRow, string bottomRow)
@@ -806,6 +809,7 @@ int solvingFunctions:: movesUntilGoalState(string topRow, string middleRow, stri
 			totalMoves += manhattanDistance(i, currentOrientation[i]);
 		}
 	}
+	return totalMoves;
 }
 int solvingFunctions:: manhattanDistance(int currentSquarePosition, int squareValue)
 {

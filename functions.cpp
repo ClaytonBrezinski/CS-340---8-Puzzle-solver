@@ -102,15 +102,12 @@ void solvingFunctions:: functionCaller(char choice, string topRow, string middle
 	case 'C': cout << "error in switch" << endl;
 	case 'D':
 	{
-		int tilesOutOfPlace();
-		//bestFirstTiles();
+		bestFirstTiles(topRow, middleRow, bottomRow, ZeroPos);
 		break;
 	}
 	case 'E':
 	{
-		//int manhattanDistance;
-		//manhattanDistance = manhattanDistance();
-		bestFirstMoves();
+		bestFirstMoves(topRow, middleRow, bottomRow, ZeroPos);
 		break;
 	}
 	case 'F':
@@ -145,6 +142,7 @@ int locateZero(string topRow, string middleRow, string bottomRow)
 			return result;
 		}
 	}
+	return 10; // error has occured
 }
 int locateZero(string whole)
 {
@@ -155,6 +153,7 @@ int locateZero(string whole)
 			return i;
 		}
 	}
+	return 10;	// error has occured
 }
 void swap(string& firstLevel, string& secondLevel, int firstPosition, int secondPosition)
 {
