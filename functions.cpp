@@ -1,6 +1,6 @@
 #include "Header.h"
 
-char readIn()
+char readIn(string& topRow, string& middleRow, string& bottomRow)
 {
 	ifstream inData;
 	fstream outData;
@@ -15,7 +15,6 @@ char readIn()
 	}
 
 	/* read in the data from the text file and place into the correct rows*/
-	string topRow, middleRow, bottomRow;
 	string input;
 	inData >> input;
 
@@ -43,7 +42,7 @@ char readIn()
 	if (choice == 'Q' || choice == 'q')
 	{
 		cout << "exiting now" << endl;
-		return 0;
+		exit(0);
 	}
 	if (choice == 'C' || choice == 'c')
 	{
@@ -57,7 +56,7 @@ char readIn()
 		if (choice == 'Q' || choice == 'q')
 		{
 			cout << "exiting now" << endl;
-			return 0;
+			exit(0);
 		}
 	}
 	/* put in correct output format*/
@@ -71,39 +70,160 @@ char readIn()
 	}
 	else if (choice == 'c')
 	{
-		choice = 'C';
+		cout << "error in functions.cpp readIn" << endl;
+	}
+	else if (choice == 'd')
+	{
+		choice = 'D';
+	}
+	else if (choice == 'e')
+	{
+		choice = 'E';
+	}
+	else if (choice == 'f')
+	{
+		choice = 'F';
 	}
 	return choice;
 }
-
-void functionCaller(char choice)
+void solvingFunctions:: functionCaller(char choice, string topRow, string middleRow, string bottomRow, int ZeroPos)
 {
 	switch (choice)
 	{
-	case 'A': depthFirstSearch();
+	case 'A':
+	{
+		int depth;
+		cout << " Please enter the depth at which you want the search to go: " << endl;
+		cin >> depth;
+		depthFirstSearch(topRow, middleRow, bottomRow, ZeroPos, depth);
+		break;
+	}
 	case 'B': breadthFirstSearch();
 	case 'C': cout << "error in switch" << endl;
 	case 'D':
 	{
-		int tilesOutOfPlace();
-		bestFirstTiles();
+		bestFirstTiles(topRow, middleRow, bottomRow, ZeroPos);
 		break;
 	}
 	case 'E':
 	{
-		// need to continue on this
-		bestFirstMoves();
+		bestFirstMoves(topRow, middleRow, bottomRow, ZeroPos);
 		break;
 	}
 	case 'F':
 	{
-		int heuristic;
-		cout << " Please enter a heuristic value" << endl;
-		cin >> heuristic;
-
-		bestFirstHeuristic(heuristic);
+		//int heuristic, totDist, seq;
+		//totDist = totalDistance();
+		//seq = sequenceScore();
+		//heruistic = totdist + 3*seq;
+		//bestFirstHeuristic(heuristic);
+		//bestFirstHeuristic(heuristic);
 		break;
 	}
 	}
 }
 
+int locateZero(string topRow, string middleRow, string bottomRow)
+{
+	for (int i = 0; i < 3; i++)
+	{
+		if (topRow[i] == '0')
+		{
+			return i;
+		}
+		else if (middleRow[i] == '0')
+		{
+			int result = i + 3 ;
+			return result;
+		}
+		else if (bottomRow[i] == '0')
+		{
+			int result = i + 6 ;
+			return result;
+		}
+	}
+	return 10; // error has occured
+}
+int locateZero(string whole)
+{
+	for (int i = 0; i < 9; i++)
+	{
+		if (whole[i] == '0')
+		{
+			return i;
+		}
+	}
+	return 10;	// error has occured
+}
+void swap(string& firstLevel, string& secondLevel, int firstPosition, int secondPosition)
+{
+	char temp = firstLevel[firstPosition];
+	firstLevel[firstPosition] = secondLevel[secondPosition];
+	secondLevel[secondPosition] = temp;
+}
+void printout(string topRow, string middleRow, string bottomRow)
+{
+	int zeroPos = locateZero(topRow, middleRow, bottomRow);
+	for (int i = 0; i < 3; i++)
+	{
+		if (i == zeroPos)
+		{
+			cout << "_" << " ";
+		}
+		else
+		{
+			cout << topRow[i] << " ";
+		}
+	}
+	cout << endl;
+
+	int tempA = zeroPos - 3;
+	for (int i = 0; i < 3; i++)
+	{
+		
+		if (i == tempA)
+		{
+			cout << "_" << " ";
+		}
+		else
+		{
+			cout << middleRow[i] << " ";
+		}
+	}
+	cout << endl;
+
+	int tempB = zeroPos - 6;
+	for (int i = 0; i < 3; i++)
+	{
+		if (i == tempB)
+		{
+			cout << "_" << " ";
+		}
+		else
+		{
+			cout << bottomRow[i] << " ";
+		}
+	}
+	cout << endl;
+
+}
+void printout(string whole)
+{
+	int zeroPos = locateZero(whole);
+	for (int i = 0; i < 9; i++)
+	{
+		if (i == zeroPos )
+		{
+			cout << "_" << " ";
+		}
+		else
+		{
+			cout << whole[i] << " ";
+		}
+		if (i == 2 || i == 5)
+		{
+			cout << endl;
+		}
+	}
+	
+}
