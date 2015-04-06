@@ -48,13 +48,22 @@ public:
 private:
 	void depthFirstSearch(string topRow, string middleRow, string bottomRow, int ZeroPos, int depth);
 	void breadthFirstSearch();
-	void bestFirstTiles();
-	void bestFirstMoves();
+	void bestFirstTiles(string topRow, string middleRow, string bottomRow, int ZeroPos);
+	void bestFirstMoves(string topRow, string middleRow, string bottomRow, int ZeroPos);
 	void bestFirstHeuristic(int heuristic);
-	int tilesOutOfPlace();
+	int tilesOutOfPlace(string topRow, string middleRow, string bottomRow);
 
 	void pushCurrentOrientation(string topRow, string middleRow, string bottomRow);
 	bool comparePrevousOrientations(string topRow, string middleRow, string bottomRow);
 	bool depthSolutionSearch(string topRow, string middleRow, string bottomRow, int ZeroPos, int depth, int MaxDepth);
 	void determineSwapOptions(string topRow, string middleRow, string bottomRow, int ZeroPos, int swapPositions[]);
+	bool bestFirstTilesSolver(string topRow, string middleRow, string bottomRow, int ZeroPos);
+	bool bestFirstMovesSolver(string topRow, string middleRow, string bottomRow, int ZeroPos);
+
+	void sequenceScore(string topRow, string middleRow, string bottomRow);
+	bool properSuccessor(string currentOrientation, char value, int position);
+	int successorPosition(int position);
+
+	int movesUntilGoalState(string topRow, string middleRow, string bottomRow);
+	int manhattanDistance(int currentSquarePosition, int squareValue);
 };

@@ -103,7 +103,7 @@ void solvingFunctions:: functionCaller(char choice, string topRow, string middle
 	case 'D':
 	{
 		int tilesOutOfPlace();
-		bestFirstTiles();
+		//bestFirstTiles();
 		break;
 	}
 	case 'E':
